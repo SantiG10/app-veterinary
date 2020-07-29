@@ -38,8 +38,8 @@ class Pagina extends Component {
     };
   }
 
-  cambiarModal = (_evento, method = "POST", btnModal = "Crear") => {
-    this.obtenerSelects(null);
+  cambiarModal = (_evento, method = "POST", btnModal = "Crear", index = null) => {
+    this.obtenerSelects(index);
     this.setState({ mostraModal: !this.state.mostraModal, method, btnModal });
   };
 
@@ -119,8 +119,7 @@ class Pagina extends Component {
   editarEliminarEntidad = async (_evento, index, tipo) => {
     if(tipo === "editar") {
       await this.obtenerSelects(index);
-      debugger;
-      this.cambiarModal(null, "PUT", "Editar");
+      this.cambiarModal(null, "PUT", "Editar", index);
     }else if(tipo === "eliminar") {
       const { entidad } = this.props;
       this.setState( {idObjeto: index}, async () => {
@@ -167,7 +166,6 @@ class Pagina extends Component {
   render() {
     const { titulo = "Página sin título", entidad } = this.props;
     const { columnas, idObjeto, entidades, objeto, options } = this.state;
-    console.log({ titulo, columnas });    
     return (
       <>
         <div className="container">
