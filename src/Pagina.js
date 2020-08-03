@@ -47,7 +47,7 @@ class Pagina extends Component {
     const entidades = await listarEntidad({ entidad });
     let elements = [];
     if (Array.isArray(entidades) && entidades.length > 0) {
-      entidades.forEach( ele => { 
+      entidades.forEach(ele => {
         let obj = `{ "valor": "${ele.nombre}", "etiqueta": "${ele.nombre}"}`;
         elements.push(JSON.parse(obj));
       });
@@ -66,7 +66,7 @@ class Pagina extends Component {
   };
 
   manejarInput = (evento) => {
-    const { target: { value, name} } = evento;
+    const { target: { value, name } } = evento;
     let { objeto } = this.state;
     objeto = { ...objeto, [name]: value };
     this.setState({ objeto });
@@ -78,7 +78,7 @@ class Pagina extends Component {
     /*if(entidad === 'mascotas') {
       objeto['dueno'] = this.state.options['dueno'][objeto['dueno']].etiqueta;
     }*/
-    await crearEditarEntidad( { entidad, objeto, method, idObjeto} );
+    await crearEditarEntidad({ entidad, objeto, method, idObjeto });
     this.cambiarModal();
     this.listar();
   }
@@ -87,7 +87,7 @@ class Pagina extends Component {
     const { entidad } = this.props;
     const { options } = this.state;
     let objeto;
-    if(index !== null){
+    if (index !== null) {
       objeto = await obtenerUno({ entidad, idObjeto: index });
     } else {
       objeto = {};
@@ -117,16 +117,16 @@ class Pagina extends Component {
   }
 
   editarEliminarEntidad = async (_evento, index, tipo) => {
-    if(tipo === "editar") {
+    if (tipo === "editar") {
       await this.obtenerSelects(index);
       this.cambiarModal(null, "PUT", "Editar", index);
-    }else if(tipo === "eliminar") {
+    } else if (tipo === "eliminar") {
       const { entidad } = this.props;
-      this.setState( {idObjeto: index}, async () => {
+      this.setState({ idObjeto: index }, async () => {
         let { idObjeto } = this.state;
-        await eliminarEntidad( { entidad, idObjeto } );
-        this.listar();  
-      });  
+        await eliminarEntidad({ entidad, idObjeto });
+        this.listar();
+      });
     }
   }
 
@@ -166,15 +166,16 @@ class Pagina extends Component {
   render() {
     const { titulo = "Página sin título", entidad } = this.props;
     const { columnas, idObjeto, entidades, objeto, options } = this.state;
+    debugger;
     return (
       <>
         <div className="container">
           <ActionsMenu cambiarModal={this.cambiarModal} titulo={titulo} />
-          <Tabla entidades={entidades} editarEliminarEntidad={this.editarEliminarEntidad} columnas={columnas}/>
-          { this.state.mostraModal && 
-            <Modal 
-              cambiarModal={this.cambiarModal} 
-              manejarInput={this.manejarInput} 
+          <Tabla entidades={entidades} editarEliminarEntidad={this.editarEliminarEntidad} columnas={columnas} />
+          {this.state.mostraModal &&
+            <Modal
+              cambiarModal={this.cambiarModal}
+              manejarInput={this.manejarInput}
               crearEntidad={this.crearEntidad}
               objeto={objeto}
               btnModal={this.state.btnModal}
@@ -182,15 +183,15 @@ class Pagina extends Component {
               idObjeto={idObjeto}
             >
               {
-              columnas.map((columna, index) => (
-                <ComponentCampo
-                  key={index}
-                  manejarInput={this.manejarInput}
-                  objeto={this.state.objeto}
-                  nombreCampo={columna}
-                  options={options}
-                />
-              ))
+                columnas.map((columna, index) => (
+                  <ComponentCampo
+                    key={index}
+                    manejarInput={this.manejarInput}
+                    objeto={this.state.objeto}
+                    nombreCampo={columna}
+                    options={options}
+                  />
+                ))
               }
             </Modal>
           }
