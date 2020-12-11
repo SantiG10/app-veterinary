@@ -3,9 +3,9 @@ import Encabezado from "./Encabezado";
 import Fila from "./Fila";
 import "./Tabla.css";
 
-function Tabla({ entidades = [], editarEliminarEntidad = () => {}, columnas = [] }) {
+function Tabla({ entidades = [], editarEliminarEntidad = () => { }, columnas = [] }) {
   //const columnas = entidades.length > 0 ? Object.keys(entidades[0]) : [];
-  if (columnas.length === 0) return false;
+  if (columnas.length === 0) return <p className="no-registros"> No hay registros </p>;
   return (
     <table className="table table-stripped table-hover">
       <Encabezado columnas={columnas} />

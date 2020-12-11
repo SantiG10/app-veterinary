@@ -9,3 +9,7 @@
 table {
   border-collapse: collapse;
 }
+
+.no-registros {
+  margin-left: 10%;
+}

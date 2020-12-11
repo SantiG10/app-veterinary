@@ -1,9 +1,29 @@
-const API_URL = "https://backend-veterinaria.now.sh";
-//const API_URL = "http://localhost:8000";
+//const API_URL = "https://backend-veterinaria.now.sh";
+const API_URL = "http://localhost:5000";
 
-export const listarEntidad = async ({ entidad = "mascotas" }) => {
+export const listarEntidad = async ({ entidad = "mascotas", search = "" }) => {
   try {
-    const respuesta = await fetch(`${API_URL}/${entidad}`);
+    //const respuesta = await fetch(`${API_URL}/${entidad}`);
+    let url = `${API_URL}/${entidad}`;
+    if (search.length > 0) {
+      switch (entidad) {
+        case 'mascotas':
+          url += `?nombre=${search}&tipo=${search}&dueno=${search}`;
+          break;
+        case 'veterinarias':
+          url += `?nombre=${search}&direccion=${search}&telefono=${search}`;
+          break;
+        case 'duenos':
+          url += `?nombre=${search}&apellido=${search}&documento=${search}`;
+          break;
+        case 'consultas':
+          url += `?mascota=${search}&veterinaria=${search}&historia=${search}&diagnostico=${search}`;
+          break;
+        default:
+          break;
+      }
+    }
+    const respuesta = await fetch(url);
     const datos = await respuesta.json();
     return datos;
   } catch (error) {
